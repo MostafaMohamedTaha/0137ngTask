@@ -1,19 +1,10 @@
-<div class="container" [dir]="'dir' |translate">
+<div class="container mainContainer" [dir]="'dir' |translate">
+  <div class="d-md-flex d-grid justify-content-between chart">
+    <app-chart class="d-md-block d-none"/>
+    <app-cart></app-cart>
+  </div>
   <div class="row">
     <app-table />
-    <p locale="ar">{{ 'greet' | translate }}</p>
-
-    <div [dir]="'ltr'">
-    <div class="input-group">
-      <button  (click)="copyToClipboard(inputField)" pTooltip="Copy to clipboard" tooltipPosition="bottom" class="clipboard_copy">
-          copy
-      </button>
-        <input pInputText type="text" [(ngModel)]="textToCopy" #inputField placeholder="copy to clipboard">
-
-        </div>
-    </div>
-    <qrcode [qrdata]="'Your data string'" [width]="256" ></qrcode>
-    <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+    <p-inputSwitch [(ngModel)]="checked" ></p-inputSwitch>
   </div>
 </div>
-

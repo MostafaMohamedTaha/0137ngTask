@@ -1,0 +1,26 @@
+.annual {
+  padding: .3em;
+  background-color: aliceblue;
+  border-radius: 7%;
+  margin: 0;
+  height: 2em;
+}
+
+.analysisYear {
+  border: none;
+  color: gray;
+  }
+
+.chart {
+  border-radius: 1%;
+  border: rgb(199, 196, 196) solid 1px;
+  padding: 1em 2em;
+}
+
+.header_container {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: .8em 2em;
+}
+
+

@@ -1,30 +1,86 @@
-<select [(ngModel)]="selectedLanguage" (ngModelChange)="switchLanguage($event)" >
-    <option selected value="en" >English</option>
-    <option value="ar" >Arabic</option>
-</select>
+<!-- <select [(ngModel)]="selectedLanguage" (ngModelChange)="switchLanguage($event)">
+    <option selected value="en">English</option>
+    <option value="ar">Arabic</option>
+</select> -->
+<div class="d-flex justify-content-center" [dir]="'ltr'">
+    <form [formGroup]="formGroup">
+        <p-selectButton [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value"
+            [(ngModel)]="selectedLanguage" (ngModelChange)="switchLanguage($event)"></p-selectButton>
+    </form>
+</div>
+
 <div class="card">
-    <p-table [value]="customers" [paginator]="true" [rows]="5" [first]="first" [showCurrentPageReport]="true"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        currentPageReportTemplate="{{'showing' | translate }} {first} {{'to' | translate }} {last} {{'of' | translate }} {totalRecords} {{'entities' | translate }}"
-        (onPage)="pageChange($event)" [rowsPerPageOptions]="[10, 25, 50]" (sortFunction)="customSort($event)"
-        [customSort]="true" [tableStyle]="{'min-width': '60rem'}">
+    <p-table #dt [value]="customers" [paginator]="true" [rows]="5" [first]="first"
+        [tableStyle]="{ 'min-width': '30rem' }"
+        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+        currentPageReportTemplate="{{'showing' | translate }} {first} {{'to' | translate }} {last} {{'of' | translate }} {totalRecords} {{'entities' | translate }}" [showCurrentPageReport]="true"
+        (onPage)="pageChange($event)" [rowsPerPageOptions]="[5, 10,15,20,30, 50]" (sortFunction)="customSort($event)"
+        [customSort]="true">
+        <ng-template pTemplate="caption">
+            <div class="d-flex justify-content-between">
+                <div class="flex justify-content-center align-items-center gap-2 mb-3">
+                    <p-inputSwitch inputId="metakey" [(ngModel)]="metaKeySelection" label="MetaKey"></p-inputSwitch>
+                </div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input p-inputText  type="text" placeholder="Enter text..." (input)="onInputChange($event)" />
+                </span>
+            </div>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="name" style="width:20%">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="country" style="width:20%">Country <p-sortIcon field="country"></p-sortIcon></th>
-                <th pSortableColumn="company" style="width:20%">Company <p-sortIcon field="company"></p-sortIcon></th>
-                <th pSortableColumn="representative" style="width:20%">Representative <p-sortIcon
-                        field="representative"></p-sortIcon></th>
+                <th pSortableColumn="id"></th>
+                <th class="table_header" pSortableColumn="name"> {{'Name' | translate }} <p-sortIcon
+                        field="name"></p-sortIcon></th>
+                <th class="table_header" pSortableColumn="ticketNo"> {{'ticketNo' | translate }}
+                    <p-sortIcon field="ticketNo"></p-sortIcon>
+                </th>
+                <th class="table_header" pSortableColumn="ticketPrice"> {{'ticketPrice' | translate }}
+                    <p-sortIcon field="ticketPrice"></p-sortIcon>
+                </th>
+                <th class="table_header" pSortableColumn="cinema"> {{'cinema' |
+                    translate }} <p-sortIcon field="cinema"></p-sortIcon></th>
+                <th class="table_header" pSortableColumn="userNumber"> {{'userNumber' |
+                    translate }} <p-sortIcon field="userNumber"></p-sortIcon></th>
+                <th class="table_header" pSortableColumn="watchNumber"> {{'watchNumber' |
+                    translate }} <p-sortIcon field="watchNumber"></p-sortIcon></th>
+                <th class="table_header" pSortableColumn="ticketName"> {{'ticketName' |
+                    translate }} <p-sortIcon field="ticketName"></p-sortIcon></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-customer>
             <tr>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.country.name }}</td>
-                <td>{{ customer.company }}</td>
-                <td>{{ customer.representative.name }}</td>
+                <td pTooltip="{{ customer.id -999 }}" tooltipPosition="bottom">{{ customer.id -999 }}</td>
+                <td pTooltip="{{ customer.name }}" tooltipPosition="bottom" class="table_header_data_name"
+                    [ngClass]="{ 'float-left': this.selectedLanguage === 'en', 'float-right': selectedLanguage !== 'en' }"
+                    style="width: 125%;">
+                    <img src="https://picsum.photos/2000/1100" class="userImage" alt=""
+                        [ngClass]="{ 'float-left': this.selectedLanguage === 'en', 'float-start ': selectedLanguage !== 'en' }">
+                    {{ customer.name }}
+                </td>
+                <td pTooltip="C-{{ customer.id -899 }}" tooltipPosition="bottom" class="table_header_data">C-{{
+                    customer.id -899 }}</td>
+                <td pTooltip="{{ customer.activity+3 |currency}}" tooltipPosition="bottom" class="table_header_data">{{
+                    customer.activity+3 |currency}}</td>
+                <td pTooltip="{{ customer.representative.name }} {{customer.country.name}}" tooltipPosition="bottom"
+                    class="table_header_data">{{ customer.representative.name }}-{{customer.country.name}}</td>
+                <td pTooltip="{{ customer.id -999 }}" tooltipPosition="bottom" class="table_header_data">{{ customer.id
+                    -999 }}</td>
+                <td pTooltip="{{ 'watchNumberValue'|translate }}" tooltipPosition="bottom" class="table_header_data">{{
+                    'watchNumberValue'|translate }}</td>
+                <td class="d-flex justify-content-center align-content-center align-items-center">
+                    <i class="pi pi-ticket iconDownload"></i>
+                    <div class="mx-2">
+                        <div class="iconText">
+                            ticket45.pdf
+                        </div>
+                        <div class="iconTextSmall">
+                            PDF - 9MB
+                        </div>
+                    </div>
+                    <i class="pi pi-download iconDownload2"></i>
+                </td>
             </tr>
         </ng-template>
-
     </p-table>
 </div>

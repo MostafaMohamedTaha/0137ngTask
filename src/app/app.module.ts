@@ -23,6 +23,10 @@ import { ButtonModule } from 'primeng/button';
 import { QRCodeModule } from 'angularx-qrcode';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { CustomerServiceAr } from './service/customerservicear';
+import { NgxApexchartsModule } from 'ngx-apexcharts';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { iconoirDownloadSquare } from '@ng-icons/iconoir';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -48,7 +52,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ButtonModule,
     QRCodeModule,
     InputSwitchModule,
-    NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,cssAdd,bootstrapCopy}),
+    NgxApexchartsModule,
+    ReactiveFormsModule,
+    SelectButtonModule,
+    NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,cssAdd,bootstrapCopy,iconoirDownloadSquare}),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,1 +1,17 @@
-<p>chart works!</p>
+<div class="chart p-0 m-0" >
+    <div class="d-flex justify-content-between  header_container ">
+        <div style="text-align: center; " class="p-0 m-0">
+            <p >{{'analysisUser'|translate}}</p>
+            <select name="YEAR" id="YEAR" class="analysisYear p-0 m-0">
+                <option value="YEAR"> {{'analysisYear'|translate}}
+                </option>
+            </select>
+        </div>
+        <div>
+            <select name="YEAR" id="YEAR" class="annual p-0 m-0">
+                <option value="YEAR">{{'annual'|translate}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="chartData p-0 m-0" #chart></div>
+</div>

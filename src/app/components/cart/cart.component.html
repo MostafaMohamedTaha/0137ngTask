@@ -1,1 +1,40 @@
-<p>cart works!</p>
+<div class="cart_container">
+    <div class="title_container">
+        <div class="cart_title">
+            {{'ticket'|translate}}
+        </div>
+        <div class="cart_title_delete">
+            <i class="bi bi-trash cart_title_delete_icon" pTooltip="delete" tooltipPosition="bottom"></i>
+        </div>
+    </div>
+    <div class="cart_details1">
+
+        <div class="input-group copy_container" [dir]="'ltr'">
+            <button (click)="copyToClipboard(inputField)" pTooltip="Copy to clipboard" tooltipPosition="bottom"
+                class="clipboard_copy">
+                <i class="pi pi-copy"></i>
+            </button>
+            <input pInputText type="text" [(ngModel)]="textToCopy" #inputField placeholder="copy to clipboard">
+        </div>
+        <div class="active_container">
+            {{'active'|translate}}
+        </div>
+    </div>
+    <div class="cart_details3"></div>
+    <div class="cart_details4"></div>
+    <div class="cart_details2">
+        <div class="mx-2">
+            <div>
+                {{'discount'|translate}}
+            </div>
+            <div class="discount mx-2">
+                <div class="fw-bold fs-4 ">25%</div>
+                <div class="border border-1 border-white rounded-1 p-1 mx-1" pTooltip="Share" tooltipPosition="bottom">
+                    <i class="pi pi-send mx-1" ></i>
+                    <span>{{'share'|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <qrcode [qrdata]="'Your data string'" [width]="82"></qrcode>
+    </div>
+</div>

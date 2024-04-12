@@ -1,11 +1,12 @@
 import { DOCUMENT } from "@angular/common";
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Inject, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { TranslateService } from "@ngx-translate/core";
 import { PrimeNGConfig, SortEvent } from "primeng/api";
 import { Customer } from "src/app/domain/customer";
 import { CustomerService } from "src/app/service/customerservice";
 import { CustomerServiceAr } from "src/app/service/customerservicear";
-
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-table',
@@ -13,17 +14,22 @@ import { CustomerServiceAr } from "src/app/service/customerservicear";
     styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-    selectedLanguage!: string ;
-    selectedService!: any;
-    customers!: Customer[];
-    first = 1;
-
+    formGroup!: FormGroup;
+    value: string | undefined;
+    stateOptions: any[] = [
+        { label: 'En', value: 'en' },
+        { label: 'Ar', value: 'ar' }
+    ];
+    @ViewChild('dt') dt!: Table;
+    selectedCustomers!: Customer;
+    selectedLanguage!: string;
+    customers: Customer[] = [];
+    first = 0;
+    metaKeySelection: boolean = true;
     rows = 10;
 
     constructor(private primengConfig: PrimeNGConfig, private translate: TranslateService, @Inject(DOCUMENT) private document: Document, private customerService: CustomerService, private customerServiceAr: CustomerServiceAr) {
         this.selectedLanguage = 'en';
-        this.selectedService = this.selectedLanguage === 'en' ? customerService : customerServiceAr;
-        // Set up PrimeNG to use translations
         this.primengConfig.setTranslation({
             // Add translations for PrimeNG components
             // Example:
@@ -32,17 +38,26 @@ export class TableComponent implements OnInit {
             // }
 
         });
+        this.formGroup = new FormGroup({
+            value: new FormControl('on')
+        });
     }
 
-    switchLanguage(selectedLanguage: string='en') {
+    switchLanguage(selectedLanguage: string = 'en') {
         const direction = selectedLanguage === 'ar' ? 'rtl' : 'ltr';
         this.document.body.dir = direction;
-        this.selectedService = selectedLanguage === 'en' ? this.customerService.getCustomersLarge().then((customers) => (this.customers = customers)) : this.customerServiceAr.getCustomersLarge().then((customers) => (this.customers = customers));
+        selectedLanguage === 'en' ? this.customerService.getCustomersLarge().then((x: Customer[]) => (this.customers = x )) : this.customerServiceAr.getCustomersLarge().then((x: Customer[]) => (this.customers = x ));
         this.translate.use(selectedLanguage); // Change the active language
     }
-
+    onInputChange(event: Event) {
+        const inputValue = (event.target as HTMLInputElement).value;
+        this.dt.filterGlobal(inputValue, 'contains');
+      }
     ngOnInit() {
-        this.customerService.getCustomersLarge().then((customers) => (this.customers = customers));
+        this.formGroup = new FormGroup({
+            value: new FormControl('on')
+        });
+        this.customerService.getCustomersLarge().then((x: Customer[]) => (this.customers = x ));
     }
 
     next() {
@@ -69,6 +84,7 @@ export class TableComponent implements OnInit {
     isFirstPage(): boolean {
         return this.customers ? this.first === 0 : true;
     }
+
     customSort(event: SortEvent) {
         if (event.data && event.data.length > 0 && event.order) {
             event.data.sort((data1: any, data2: any) => {
@@ -90,3 +106,4 @@ export class TableComponent implements OnInit {
         }
     }
 }
+

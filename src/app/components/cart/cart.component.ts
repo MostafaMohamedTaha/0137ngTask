@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
-
+  textToCopy: string = '';
+  copyToClipboard(inputField: HTMLInputElement) {
+    inputField.select();
+    document.execCommand('copy');
+  }
 }
